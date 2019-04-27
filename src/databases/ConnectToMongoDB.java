@@ -11,7 +11,7 @@ import parser.Student;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConnectToMongoDB {
+public class ConnectToMongoDB<user> {
 
     public static MongoDatabase mongoDatabase = null;
 
@@ -40,7 +40,7 @@ public class ConnectToMongoDB {
         MongoCollection<Document> collection = mongoDatabase.getCollection("profile");
         BasicDBObject basicDBObject = new BasicDBObject();
         FindIterable<Document> iterable = collection.find(basicDBObject);
-        for (Document doc : iterable) {
+        for ( Document doc : iterable ) {
             String stName = (String) doc.get("stName");
             user.setStName(stName);
             String stID = (String) doc.get("stID");
@@ -56,7 +56,7 @@ public class ConnectToMongoDB {
     public static void main(String[] args) {
         insertIntoToMongoDB(new User("Naomi Chan", "4493", "07-1996"));
         List<User> user = readUserProfileFromMongoDB();
-        for (User person : user) {
+        for ( User person : user ) {
             System.out.println(person.getStName() + " " + person.getStID());
         }
     }
@@ -69,7 +69,7 @@ public class ConnectToMongoDB {
         if (collectionExists) {
             myCollection.drop();
         }
-        for (int i = 0; i < student.size(); i++) {
+        for ( int i = 0; i < student.size(); i++ ) {
             MongoCollection<Document> collection = mongoDatabase.getCollection(profileName);
             Document document = new Document().append("firstName", student.get(i).getFirstName()).append("lastName",
                     student.get(i).getLastName()).append("score", student.get(i).getScore()).append("id", student.get(i).getId());
@@ -85,7 +85,7 @@ public class ConnectToMongoDB {
         MongoCollection<Document> collection = mongoDatabase.getCollection(profileName);
         BasicDBObject basicDBObject = new BasicDBObject();
         FindIterable<Document> iterable = collection.find(basicDBObject);
-        for (Document doc : iterable) {
+        for ( Document doc : iterable ) {
             String firstName = (String) doc.get("firstName");
             student.setFirstName(firstName);
             String lastName = (String) doc.get("lastName");
@@ -98,5 +98,15 @@ public class ConnectToMongoDB {
             list.add(student);
         }
         return list;
+
     }
+
+    public ConnectToMongoDB(new User("niopmi"), "449307-1996"));
+    List<User> user = readUserProfileFromMongoDB();
+
+    System.out.user.println.getStName()+" "user.getStID());
+
 }
+
+
+

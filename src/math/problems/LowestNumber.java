@@ -25,10 +25,13 @@ public class LowestNumber {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("Data is reading from the Table (tbl_primenumber) and displaying to the console");
+        System.out.println("Data is reading from the Table (int array[]) and displaying to the console");
         for (String st : lowestValue) {
             System.out.println(st);
         }
     }
 
+    public static int lowest(int[] array) {
+        return 0;
+    }
 }

@@ -1,5 +1,6 @@
 package databases;
 
+import com.sun.tools.classfile.ConstantPool;
 import parser.Student;
 
 import java.io.FileInputStream;
@@ -10,16 +11,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import static com.sun.tools.classfile.ConstantPool.*;
+
 
 public class ConnectToSqlDB {
 
+    private static final java.lang.Object Object =0;
+    private static final java.lang.Object String = 0;
+    private static final java.lang.Object List = null;
+    private static final java.lang.Object CONSTANT_String_info =0;
+    private static final java.lang.Object Integer = 0;
+    private static final java.lang.Object IOException = null;
+    private static final java.lang.Object ClassNotFoundException =null;
     public static Connection connect = null;
     public static Statement statement = null;
     public static PreparedStatement ps = null;
     public static ResultSet resultSet = null;
+    private java.lang.String columnName;
 
     public static Properties loadProperties() throws IOException {
         Properties prop = new Properties();
+
         InputStream ism = new FileInputStream("src/secret.properties");
         prop.load(ism);
         ism.close();
@@ -189,7 +201,7 @@ public class ConnectToSqlDB {
         }
     }
 
-    public void insertProfileToSqlTable(String tableName, String columnName1, String columnName2) {
+    public java.util.List<User> insertProfileToSqlTable(String tableName, String columnName1, String columnName2) throws SQLException, IOException, ClassNotFoundException {
         try {
             connectToSqlDatabase();
             ps = connect.prepareStatement("INSERT INTO " + tableName + " ( " + columnName1 + "," + columnName2 + " ) VALUES(?,?)");
@@ -205,5 +217,170 @@ public class ConnectToSqlDB {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+   public void short list;
+
+       // list;
+       // (List<Object> list, String tableName, String String columnName;
+        //columnName)
+    {
+        try {
+            connectToSqlDatabase();
+            ps = connect.prepareStatement("DROP TABLE IF EXISTS `"+tableName+"`;");
+            ps.executeUpdate();
+            ps = connect.prepareStatement("CREATE TABLE `"+tableName+"` (`ID` int(11) NOT NULL AUTO_INCREMENT,`"+ columnName+"` int(20) DEFAULT NULL,  PRIMARY KEY (`ID`) );");
+            ps.executeUpdate();
+            boolean intlist = false;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //public void InsertDataFromArrayListToMySql(List<String> list,String tableName, String columnName1,String columnName2 )
+    {
+        try {
+            connectToSqlDatabase();
+            final String[] key = new String[1];
+            String value = list(1);
+            System.out.println("key is:"+ key[0] + " value is:" + value);
+
+            ps = connect.prepareStatement("INSERT INTO "+tableName+" ( " + columnName1 + "," + columnName2 + " ) VALUES(?,?)");
+            ps.setString(1, key[0]);
+            ps.setString(2,value);
+            ps.executeUpdate();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+        CONSTANT_String_info, CONSTANT_Integer{
+        try {
+            connectToSqlDatabase();
+            ps = connect.prepareStatement("DROP TABLE IF EXISTS `"+tableName+"`;");
+            ps.executeUpdate();
+            ps = connect.prepareStatement("CREATE TABLE `"+tableName+"` (`ID` int(11) NOT NULL AUTO_INCREMENT,`"+columnName+"` varchar(2500) DEFAULT NULL,  PRIMARY KEY (`ID`) );");
+            ps.executeUpdate();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void insertDataFromArrayListToSqlTable_ list, String tableName, String columnName) {
+        try {
+            connectToSqlDatabase();
+
+            for (Integer st : list) {
+                ps = connect.prepareStatement("INSERT INTO " + tableName + " ( " + columnName + " ) VALUES(?)");
+                ps.setObject(1, st);
+                ps.executeUpdate();
+            }
+            System.out.println("Database: " + ps);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void createTableFromStringToMySql(String tableName, String columnName1,String columnName2){
+        try {
+            connectToSqlDatabase();
+            ps = connect.prepareStatement("DROP TABLE IF EXISTS `"+tableName+"`;");
+            ps.executeUpdate();
+            ps = connect.prepareStatement("CREATE TABLE `"+tableName+"` (`ID` int(11) NOT NULL AUTO_INCREMENT,`"+columnName1+"` varchar(2500) DEFAULT NULL,`"+columnName2+"` varchar(2500) DEFAULT NULL,  PRIMARY KEY (`ID`) );");
+            ps.executeUpdate();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+    public void insertProfileToSqlTable(String tableName, String columnName1, String columnName2)
+    {
+        try {
+            connectToSqlDatabase();
+            ps = connect.prepareStatement("INSERT INTO "+tableName+" ( " + columnName1 + "," + columnName2 + " ) VALUES(?,?)");
+            ps.setString(1,"Ankita Sing");
+            ps.setInt(2,3590);
+            ps.executeUpdate();
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static List<User> readUserProfileFromSqlTable()throws IOException, SQLException, ClassNotFoundException{
+        List<User> list = new ArrayList<>();
+        User user = null;
+        try{
+            Connection conn = connectToSqlDatabase();
+            String query = "SELECT * FROM Students";
+            // create the java statement
+            Statement st = conn.createStatement();
+            // execute the query, and get a java resultset
+            ResultSet rs = st.executeQuery(query);
+            // iterate through the java resultset
+            while (rs.next())
+            {
+                String name = rs.getString("stName");
+                String id = rs.getString("stID");
+                String dob = rs.getString("stDOB");
+                //System.out.format("%s, %s\n", name, id);
+                user = new User(name,id, dob);
+                list.add(user);
+
+            }
+            st.close();
+        }catch (Exception e){
+            System.err.println("Got an exception! ");
+            System.err.println(e.getMessage());
+        }
+        return list;
+    }
+
+    //public static void main(String[] args)
+           // throws
+       // } IOException, SQLException, ClassNotFoundException{
+
+        List<User> list = readUserProfileFromSqlTable();
+        for(User user:list){
+            System.out.println(user.getStName() + " " + user.getStID()+ " " + user.getStDOB());
+        }
+
+
+
+
+    }
+
+    private java.lang.String list(int i) {
+        return null;
     }
 }
